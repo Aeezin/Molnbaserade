@@ -59,8 +59,8 @@ public class HttpExample
 public class MultiResponse
 {
     [CosmosDBOutput(
-        "funktionsapplikationsDB",
-        "funktionsapplikationskontainer",
+        "my-database",
+        "my-container",
         Connection = "CosmosDbConnectionString",
         PartitionKey = "/id",
         CreateIfNotExists = true
