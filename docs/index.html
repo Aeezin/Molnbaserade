@@ -27,7 +27,7 @@
                     body: JSON.stringify({ name })
                 });
 
-                const text = await response.text(message);
+                const text = await response.text();
                 document.querySelector(".form").textContent = text;
             } catch (error) {
                 console.error("Error: ", error)
