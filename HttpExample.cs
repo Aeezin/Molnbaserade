@@ -1,4 +1,5 @@
 using System.Net;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
@@ -23,7 +24,9 @@ public class HttpExample
     {
         var logger = executionContext.GetLogger("HttpExample");
         logger.LogInformation("C# HTTP trigger function processed a request.");
-
+        string readBody = await req.ReadAsStringAsync();
+        JsonNode data = JsonNode.Parse(readBody);
+        string name = (string)data["name"];
         var message = "Welcome to Azure Functions!";
 
         var response = req.CreateResponse(HttpStatusCode.OK);
@@ -32,7 +35,7 @@ public class HttpExample
 
         return new MultiResponse()
         {
-            Document = new MyDocument { id = System.Guid.NewGuid().ToString(), message = message },
+            Document = new MyDocument { id = Guid.NewGuid().ToString(), message = message },
             HttpResponse = response,
         };
     }
@@ -43,7 +46,7 @@ public class MultiResponse
     [CosmosDBOutput(
         "my-database",
         "my-container",
-        Connection = "CosmosDbConnectionSetting",
+        Connection = "CosmosDbConnectionString",
         CreateIfNotExists = true
     )]
     public MyDocument Document { get; set; }
