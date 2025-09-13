@@ -47,6 +47,7 @@ public class MultiResponse
         "my-database",
         "my-container",
         Connection = "CosmosDbConnectionString",
+        PartitionKey = "/id",
         CreateIfNotExists = true
     )]
     public MyDocument Document { get; set; }
