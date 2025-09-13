@@ -1,10 +1,8 @@
 using System.Net;
 using System.Text.Json.Nodes;
-using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
-using Microsoft.Identity.Client;
 
 namespace My.Functions;
 
@@ -19,7 +17,7 @@ public class HttpExample
 
     [Function("HttpExample")]
     public async Task<MultiResponse> Run(
-        [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequestData req,
+        [HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequestData req,
         FunctionContext executionContext
     )
     {
@@ -52,7 +50,7 @@ public class HttpExample
 
         return new MultiResponse()
         {
-            Document = new MyDocument { id = Guid.NewGuid().ToString(), Name = name },
+            Form = new VisitorForm { id = Guid.NewGuid().ToString(), Name = name },
             HttpResponse = response,
         };
     }
@@ -67,13 +65,13 @@ public class MultiResponse
         PartitionKey = "/id",
         CreateIfNotExists = true
     )]
-    public MyDocument? Document { get; set; }
+    public VisitorForm? Form { get; set; }
 
     [HttpResult]
     public HttpResponseData? HttpResponse { get; set; }
 }
 
-public class MyDocument
+public class VisitorForm
 {
     public string id { get; set; } = null!;
     public string Name { get; set; } = null!;
