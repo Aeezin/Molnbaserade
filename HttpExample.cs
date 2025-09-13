@@ -42,7 +42,7 @@ public class HttpExample
             throw new Exception("Name cannot be empty.");
         }
 
-        var message = "Welcome to Azure Functions!";
+        var message = $"Hello {name}";
 
         var response = req.CreateResponse(HttpStatusCode.OK);
         response.Headers.Add("Content-Type", "text/plain; charset=utf-8");
