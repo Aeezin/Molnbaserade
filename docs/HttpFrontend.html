@@ -11,13 +11,13 @@
         <h1 class="welcome-message" style="color: white;">Welcome, please fill in the form!</h1>
         <input class="name-input" placeholder="Enter name here..." />
         <button type="button">Submit</button>
-        <p class="demo"></p>
+        <p class="form"></p>
     </div>
 </body>
     <script>
         document.querySelector("button").addEventListener("click", async () => {
             const name = document.querySelector(".name-input").value;
-            
+
             try
             {
                 const response = await fetch("https://funktionsapplikation.azurewebsites.net/api/httpexample", {
@@ -29,10 +29,10 @@
                 });
 
                 const text = await response.text();
-                document.querySelector(".demo").textContent = text;
+                document.querySelector(".form").textContent = text;
             } catch (error) {
                 console.error("Error: ", error)
-                document.querySelector(".demo").textContent = "Something went wrong.";
+                document.querySelector(".form").textContent = "Something went wrong.";
             }
         });
     </script>
