@@ -1,5 +1,6 @@
 using System.Net;
 using System.Text.Json.Nodes;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
@@ -47,24 +48,36 @@ public class HttpExample
         string? readBody = await req.ReadAsStringAsync();
         if (string.IsNullOrWhiteSpace(readBody))
         {
-            _logger.LogInformation("There's nothing to read from body");
-            throw new Exception("Ther's nothing to read from bdoy");
+            _logger.LogWarning("Body was empty.");
+
+            var badResponse = req.CreateResponse(HttpStatusCode.BadRequest);
+            await badResponse.WriteAsJsonAsync("Body is required.");
+
+            return new MultiResponse { HttpResponse = badResponse, Form = null };
         }
 
         // Parse JSON
         JsonNode? data = JsonNode.Parse(readBody);
         if (data is null)
         {
-            _logger.LogInformation("There's no data to read");
-            throw new Exception($"There's no data to read.");
+            _logger.LogWarning("There's no data to read");
+
+            var badResponse = req.CreateResponse(HttpStatusCode.BadRequest);
+            await badResponse.WriteAsJsonAsync("There's not data to read.");
+
+            return new MultiResponse { HttpResponse = badResponse, Form = null };
         }
 
         // Extract "name" property
         string name = (string)data["name"]!;
         if (string.IsNullOrWhiteSpace(name))
         {
-            _logger.LogInformation("Name was empty here.");
-            throw new Exception("Name cannot be empty.");
+            _logger.LogWarning("Name was empty here.");
+
+            var badResponse = req.CreateResponse(HttpStatusCode.BadRequest);
+            await badResponse.WriteAsJsonAsync("Name is required.");
+
+            return new MultiResponse { HttpResponse = badResponse, Form = null };
         }
 
         // Simple response message

@@ -8,7 +8,7 @@
 <body class="page" style="background-color: rgb(29, 29, 29);">
     <div class="boarder" style="display: grid; justify-content: center;">
         <h1 class="welcome-message" style="color: white;">Welcome, please fill in the form!</h1>
-        <input class="name-input" placeholder="Enter name here..." style="width: 10rem; margin-left: 10rem;" />
+        <input type="text" class="name-input" placeholder="Enter name here..." style="width: 10rem; margin-left: 10rem;" />
         <button type="button" style="width: 5rem; margin-left: 13rem; margin-top: 1rem;">Submit</button>
         <p class="form" style="margin-left: 11rem; color: white;"></p>
     </div>
@@ -16,13 +16,18 @@
     <script>
         document.querySelector("button").addEventListener("click", async () => {
             const name = document.querySelector(".name-input").value;
+            if (name.trim === "")
+        {
+            document.querySelector(".form").textContent = "Name is required.";
+            return;
+        }
 
             try
             {
                 const response = await fetch("https://funktionsapplikation.azurewebsites.net/api/httpexample", {
                     method: "POST",
                     headers: {
-                        "Content-Type": "text/plain"
+                        "Content-Type": "application/json"
                     },
                     body: JSON.stringify({ name })
                 });
@@ -35,4 +40,4 @@
             }
         });
     </script>
-</html>
+</html>¨
