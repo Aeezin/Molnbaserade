@@ -20,7 +20,7 @@ The purpose of this project is to demonstrate how to
 No installation needed.
 You only need a modern web browser to use the form.
 
-### Installation
+### Setup
 
 **Frontend**
 
