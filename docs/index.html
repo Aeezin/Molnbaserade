@@ -16,7 +16,7 @@
     <script>
         document.querySelector("button").addEventListener("click", async () => {
             const name = document.querySelector(".name-input").value;
-            if (name.trim === "")
+            if (name.trim() === "")
         {
             document.querySelector(".form").textContent = "Name is required.";
             return;
@@ -31,6 +31,12 @@
                     },
                     body: JSON.stringify({ name })
                 });
+
+                if (!response.ok) {
+                    const errorMessage = await response.text();
+                    document.querySelector(".form").textContent = errorMessage;
+                    return;
+                }
 
                 const text = await response.text();
                 document.querySelector(".form").textContent = text;
