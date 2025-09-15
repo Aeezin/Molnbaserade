@@ -18,9 +18,9 @@ The purpose of this project is to demonstrate how to
 ### Dependencies
 
 No installation needed.
-You only need a modern web browser to use the form.
+You only need a modern web browser to use the check in form.
 
-### Installation
+### Setup
 
 **Frontend**
 
